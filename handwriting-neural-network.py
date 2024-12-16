@@ -1,5 +1,6 @@
 import numpy as np
 import pickle
+from random import random
 
 
 def sigmoid(num):
@@ -57,10 +58,14 @@ with open("mnist_train.csv") as f:
         target = int(commaSplitLine[0])
         solution = np.zeros((10, 1))
         solution[target, 0] = 1
-        
-        inputValues = np.zeros((784, 1))
-        for i in range(1, len(commaSplitLine)):
-            inputValues[i-1, 0] = int(commaSplitLine[i])/255
+        if(random() <0.3): #distortions
+            inputValues = np.zeros((784, 1))
+            for i in range(2, len(commaSplitLine)+1):
+                inputValues[i-2, 0] = int(commaSplitLine[i-1])/255
+        else:
+            inputValues = np.zeros((784, 1))
+            for i in range(1, len(commaSplitLine)):
+                inputValues[i-1, 0] = int(commaSplitLine[i])/255
         inputs.append((inputValues, solution))
 # print(inputs)
 tests = []
@@ -71,7 +76,6 @@ with open("mnist_test.csv") as f:
         target = int(commaSplitLine[0])
         solution = np.zeros((10, 1))
         solution[target, 0] = 1
-        
         inputValues = np.zeros((784, 1))
         for i in range(1, len(commaSplitLine)):
             inputValues[i-1, 0] = int(commaSplitLine[i])/255
